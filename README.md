@@ -72,7 +72,7 @@ Containers are mounted in /media by default. You can edit the first variable in 
 
 lccmu assumes the active user account that's running the script when mounting the container image so that it can apply the user permissions required for that user to access the container. (If you run lccmu as sudo/root, only the root user will have access to the mounted container.)
 
-You can use spaces for container and directory names, but it would need to be encapsulated in quotes or you could provide a "\" before each space.
+You can use spaces for container and directory names, but it would need to be encapsulated in quotes or you could provide a backslash before each space.
 
 You can unmount a container from anywhere on your system so long as you know the containers name. A full path to the image file isn't required when unmounting.
 
