@@ -64,7 +64,7 @@ After applying the filesystem, you should see "LUKS container complete!"
 
 The container size has to be atleast 2.2MB.
 
-Containers are mounted in /media by default. You can edit the first variable in the script line 6, "mntl=/media" to a custom location if you want.
+Containers are mounted in /media by default. You can edit the first variable in the script at line 6, "mntl=/media" to a custom location if you want.
 
 lccmu assumes the active user account that's running the script when mounting the container image so that it can apply the user permissions required for that user to access the container. (If you run lccmu as sudo/root, only the root user will have access to the mounted container.)
 
