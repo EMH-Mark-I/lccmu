@@ -52,19 +52,11 @@ After applying the filesystem, you should see "LUKS container complete!"
 
 • --mount container example:
 
-`lccmu -m container1`
-
-or
-
-`lccmu -m /path/to/container1`
+`lccmu -m container1` or `lccmu -m /path/to/container1`
 
 • --umount container example:
 
-`lccmu -u container1`
-
-or
-
-`lccmu -u /path/to/container1`
+`lccmu -u container1` or `lccmu -u /path/to/container1`
 
 • --help will display a short list the options and examples uses.
 
