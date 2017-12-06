@@ -28,13 +28,15 @@ Move lccmu into /bin
 
 lccmu [OPTION]... [FILE]... [SIZE]...
 
-There are three options. 
+There are four options. 
 
 `-c | --create` 
 
 `-m | --mount`
 
 `-u | --umount`
+
+`-h | --help`
 
 • --create container example:
 
@@ -63,6 +65,8 @@ or
 or
 
 `lccmu -u /path/to/container1`
+
+• --help will display a short list the options and examples uses.
 
 ## Additional Information
 
