@@ -1,0 +1,104 @@
+#!/bin/bash
+#LUKS Container Creation & Mounting Utility
+#Made by EMH-Mark-I 09/18
+#
+#file mount location. You can adjust this variable for a custom location. Default is "/media"
+mntl=/media
+#chosen name argument location
+cname=$2
+#file size argument location
+fsize=$3
+#true name
+tname=$(echo "$cname" | rev | cut -d'/' -f1 | rev)
+#containers with possibility of spaces in names
+fname=$(echo "$tname" | sed 's| |\\x20|g')
+#create directory with true name
+cdir=$(echo "$tname" | sed 's/$/_container/')
+#check if cname exists first, to prevent accidental overwrite of existing containers.
+if [ -f "$cname" ];
+then
+	while test $# -gt 0; do
+		case "$1" in
+			-m|--mount)
+				sudo cryptsetup luksOpen "$cname" "$tname" &&
+				sudo mkdir -p "$mntl"/"$cdir" &&
+				sudo mount /dev/mapper/$fname "$mntl"/"$cdir" &&
+				sudo chown -R $USER "$mntl"/"$cdir" &&
+				echo "$tname mounted in $mntl/$cdir"
+				exit 0
+				;;
+			-c|--create)
+				echo "$tname already exists!"
+				exit 0
+				;;
+			-u|--umount)
+				sudo umount "$mntl"/"$cdir" &&
+				sudo cryptsetup luksClose $fname &&
+				sudo rmdir "$mntl"/"$cdir" &&
+				echo "$tname unmounted"
+				exit 0
+				;;
+			*)
+				echo "Unknown or missing argument"
+				exit 2
+				;;
+		esac
+	done
+else
+	while test $# -gt 0; do
+		case "$1" in
+			-c|--create)
+				#check the $fsize variable if it's empty
+				if [ -n "$fsize" ]; 
+				then
+					echo "-"
+				else
+					echo "A file size needs to be specified"
+					exit 2
+				fi
+				fallocate -l $fsize "$cname" &&
+				echo "$tname has been created" &&
+				sleep 1s &&
+				echo "Formatting container" &&
+				cryptsetup -y luksFormat "$cname" &&
+				echo "-" &&
+				echo "Creating file system" &&
+				sudo cryptsetup luksOpen "$cname" "$tname" &&
+				sudo mkfs.ext4 /dev/mapper/$fname &&
+				sudo cryptsetup luksClose $fname &&
+				echo "LUKS container complete!"
+				exit 0
+				;;
+			-u|--umount)
+				sudo umount "$mntl"/"$cdir" &&
+				sudo cryptsetup luksClose $fname &&
+				sudo rmdir "$mntl"/"$cdir" &&
+				echo "$tname unmounted"
+				exit 0
+				;;
+			-h|--help)
+				echo "-m	--mount 	Used to mount a specified file"
+				echo "-u	--umount	Used to un-mount a specified file"
+				echo "-c	--create	Used to create a container"
+				echo "-"
+				echo "Create container example:"
+				echo "lccmu -c  container1 120M (or) lccmu -c  /path/for/container1 120M"
+				echo "Container size needs to be larger than 2200000 bytes | 2200 KB | 2.2 MB"
+				echo "-"
+				echo "Mount container example:"
+				echo "lccmu -m container1  (or)  lccmu -m /path/to/container1"
+				echo "-"
+				echo "Un-mount container example:"
+				echo "lccmu -u container1  (or)  lccmu -u /path/to/container1"
+				echo "-"
+				exit 0
+				;;
+			*)
+				echo "Unknown or missing argument"
+				exit 2
+				;;
+		esac
+	done
+fi
+echo "Unknown or missing argument"
+exit 0
