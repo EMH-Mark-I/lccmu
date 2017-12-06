@@ -58,7 +58,7 @@ After applying the filesystem, you should see "LUKS container complete!"
 
 `lccmu -u container1` or `lccmu -u /path/to/container1`
 
-• --help will display a short list the options and examples uses.
+• --help will display a short list the options and example uses.
 
 ## Additional Information
 
