@@ -28,7 +28,7 @@ Move lccmu into /bin
 
 lccmu [OPTION]... [FILE]... [SIZE]...
 
-There are three options. 
+There are four options. 
 
 `-c | --create` 
 
@@ -36,9 +36,11 @@ There are three options.
 
 `-u | --umount`
 
+`-h | --help`
+
 • --create container example:
 
-`lccmu -c container1 120M` or `lccmu -c /path/for/container1 120M`
+`lccmu -c container1 120MB` or `lccmu -c /path/for/container1 120MB`
 
 Following the creation of the file, you will be prompted to insert "YES" in capital letters before the file is formatted. If you fail to insert "YES," lccmu will exit and you will be left with a blank file. Lccmu won't be able to continue in the creation of that container and you will have to remove the blank file before starting over.
 
@@ -50,29 +52,25 @@ After applying the filesystem, you should see "LUKS container complete!"
 
 • --mount container example:
 
-`lccmu -m container1`
-
-or
-
-`lccmu -m /path/to/container1`
+`lccmu -m container1` or `lccmu -m /path/to/container1`
 
 • --umount container example:
 
-`lccmu -u container1`
+`lccmu -u container1` or `lccmu -u /path/to/container1`
 
-or
-
-`lccmu -u /path/to/container1`
+• --help will display a short list the options and example uses.
 
 ## Additional Information
 
 The container size has to be atleast 2.2MB.
 
-Containers are mounted in /media by default. You can edit the first variable in the script line 6, "mntl=/media" to a custom location if you want.
+Containers are mounted in /media by default. You can edit the first variable in the script at line 6, "mntl=/media" to a custom location if you want.
+
+lccmu uses EXT4 for the container filesystem.
 
 lccmu assumes the active user account that's running the script when mounting the container image so that it can apply the user permissions required for that user to access the container. (If you run lccmu as sudo/root, only the root user will have access to the mounted container.)
 
-You can use spaces for container and directory names, but it would need to be encapsulated in quotes or you could provide a "\" before each space.
+You can use spaces for container and directory names, but it would need to be encapsulated in quotes or you could provide a backslash before each space.
 
 You can unmount a container from anywhere on your system so long as you know the containers name. A full path to the image file isn't required when unmounting.
 
