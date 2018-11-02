@@ -47,6 +47,14 @@ then
 else
 	while test $# -gt 0; do
 		case "$1" in
+			-m|--mount)
+				sudo cryptsetup luksOpen "$cname" "$tname" &&
+				sudo mkdir -p "$mntl"/"$cdir" &&
+				sudo mount /dev/mapper/$fname "$mntl"/"$cdir" &&
+				sudo chown -R $USER "$mntl"/"$cdir" &&
+				echo "$tname mounted in $mntl/$cdir"
+				exit 0
+				;;
 			-c|--create)
 				#check the $fsize variable if it's empty
 				if [ -n "$fsize" ]; 
