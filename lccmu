@@ -68,7 +68,7 @@ else
 				echo "$tname has been created" &&
 				sleep 1s &&
 				echo "Formatting container" &&
-				cryptsetup -y luksFormat "$cname" &&
+				cryptsetup --type luks1 -y luksFormat "$cname" &&
 				echo "-" &&
 				echo "Creating file system" &&
 				sudo cryptsetup luksOpen "$cname" "$tname" &&
